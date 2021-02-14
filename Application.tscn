@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Grid.gd" type="Script" id=1]
 [ext_resource path="res://Rooms.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://MenuDrag.gd" type="Script" id=6]
 [ext_resource path="res://Menu1.gd" type="Script" id=7]
 [ext_resource path="res://HWall.gd" type="Script" id=8]
+[ext_resource path="res://VWall.gd" type="Script" id=9]
 
 [sub_resource type="Theme" id=1]
 
@@ -30,12 +31,16 @@ script = ExtResource( 3 )
 visible = false
 script = ExtResource( 8 )
 
+[node name="VWall" type="Node2D" parent="Rooms"]
+visible = false
+script = ExtResource( 9 )
+
 [node name="Grid" type="Node2D" parent="."]
 script = ExtResource( 1 )
 
 [node name="Menu1" type="MarginContainer" parent="."]
 margin_right = 70.0
-margin_bottom = 135.0
+margin_bottom = 128.0
 theme = SubResource( 1 )
 script = ExtResource( 7 )
 __meta__ = {
@@ -44,7 +49,7 @@ __meta__ = {
 
 [node name="ColorRect" type="ColorRect" parent="Menu1"]
 margin_right = 70.0
-margin_bottom = 135.0
+margin_bottom = 128.0
 grow_horizontal = 0
 grow_vertical = 0
 __meta__ = {
@@ -75,29 +80,29 @@ margin_top = 18.0
 margin_right = 49.0
 margin_bottom = 18.0
 
-[node name="ToolButton" type="ToolButton" parent="Menu1/ColorRect/VBoxContainer"]
+[node name="btnRoom" type="Button" parent="Menu1/ColorRect/VBoxContainer"]
 margin_top = 22.0
 margin_right = 49.0
-margin_bottom = 44.0
-text = "Room"
-
-[node name="btnRoom" type="Button" parent="Menu1/ColorRect/VBoxContainer"]
-margin_top = 48.0
-margin_right = 49.0
-margin_bottom = 68.0
+margin_bottom = 42.0
 text = "Room"
 
 [node name="btnWall" type="Button" parent="Menu1/ColorRect/VBoxContainer"]
-margin_top = 72.0
+margin_top = 46.0
 margin_right = 49.0
-margin_bottom = 92.0
+margin_bottom = 66.0
 text = "Wall"
 
 [node name="btnSavePng" type="Button" parent="Menu1/ColorRect/VBoxContainer"]
-margin_top = 96.0
+margin_top = 70.0
 margin_right = 49.0
-margin_bottom = 116.0
+margin_bottom = 90.0
 text = "png"
+
+[node name="Label" type="Label" parent="Menu1/ColorRect/VBoxContainer"]
+margin_top = 94.0
+margin_right = 49.0
+margin_bottom = 108.0
+text = "--------"
 
 [node name="FileDialog" type="FileDialog" parent="."]
 visible = true
@@ -121,3 +126,4 @@ __meta__ = {
 [connection signal="pressed" from="Menu1/ColorRect/VBoxContainer/btnWall" to="Grid" method="_on_btnWall_pressed"]
 [connection signal="pressed" from="Menu1/ColorRect/VBoxContainer/btnSavePng" to="." method="_on_btnSavePng_pressed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="popup_hide" from="FileDialog" to="." method="_on_FileDialog_popup_hide"]

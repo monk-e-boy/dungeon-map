@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "Square",
 "language": "GDScript",
 "path": "res://Square.gd"
+}, {
+"base": "Node2D",
+"class": "VWall",
+"language": "GDScript",
+"path": "res://VWall.gd"
 } ]
 _global_script_class_icons={
 "Grid": "",
 "HWall": "",
-"Square": ""
+"Square": "",
+"VWall": ""
 }
 
 [application]

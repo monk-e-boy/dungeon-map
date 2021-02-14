@@ -31,6 +31,10 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func get_class():
+	# override this as it returns "Node2D" - bug in godot
+	return "Square"
+
 func set_pos(v):
 	self.pos = v
 	# HACK - generate a key so we can figure out who's next to us

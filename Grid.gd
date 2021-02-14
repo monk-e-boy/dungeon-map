@@ -25,8 +25,10 @@ func _process(delta):
 	pass
 
 func _input(event):
-	print("Input event")
+	#print("Input event")
+	pass
 
+# ignore GUI clicks on toolbar
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		self.mouse_pos = event.position
@@ -55,11 +57,11 @@ func create_wall(x, y):
 			emit_signal("create_vwall", room.pos.x-4, room.pos.y)
 			break
 		
-		# RIGHT
-		r = Rect2(Vector2(room.pos.x+room.size-4, room.pos.y), Vector2(8, room.size))
-		if r.has_point(mouse_pos):
-			emit_signal("create_vwall", x, y)
-			break
+#		# RIGHT
+#		r = Rect2(Vector2(room.pos.x+room.size-4, room.pos.y), Vector2(8, room.size))
+#		if r.has_point(mouse_pos):
+#			emit_signal("create_vwall", x, y)
+#			break
 		
 		# TOP
 		r = Rect2(Vector2(room.pos.x, room.pos.y-4), Vector2(room.size, 8))
@@ -67,11 +69,11 @@ func create_wall(x, y):
 			emit_signal("create_hwall", room.pos.x, room.pos.y-4)
 			break
 			
-		# BOTTOM
-		r = Rect2(Vector2(room.pos.x, room.pos.y+room.size-4), Vector2(room.size, 8))
-		if r.has_point(mouse_pos):
-			emit_signal("create_hwall", x, y)
-			break
+#		# BOTTOM
+#		r = Rect2(Vector2(room.pos.x, room.pos.y+room.size-4), Vector2(room.size, 8))
+#		if r.has_point(mouse_pos):
+#			emit_signal("create_hwall", x, y)
+#			break
 
 func _draw():
 	if not show_pointer:
@@ -85,10 +87,10 @@ func _draw():
 		self.draw_rect(r, self.color, true, 1, false)
 		
 	if mode == mode_wall:
-		draw_wall()
+		ghost_wall()
 
 
-func draw_wall():
+func ghost_wall():
 	
 	var x = floor(self.mouse_pos.x / size) * size
 	var y = floor(self.mouse_pos.y / size) * size	
@@ -99,6 +101,10 @@ func draw_wall():
 	#        this needs to move somewhere
 	var rooms = get_node("../Rooms").get_children()
 	for room in rooms:
+		
+		if room.get_class() != "Square":
+			continue
+		
 		# LEFT
 		var r = Rect2(Vector2(room.pos.x-4, room.pos.y), Vector2(8, room.size))
 		if r.has_point(mouse_pos):

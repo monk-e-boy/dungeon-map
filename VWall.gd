@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name HWall
+class_name VWall
 
 var size = 1
 var height = 8
@@ -24,24 +24,21 @@ func _ready():
 
 func get_class():
 	# override this as it returns "Node2D" - bug in godot
-	return "HWall"
+	return "VWall"
 
 func _draw():
 	self.rng.seed = self.pos.x * self.pos.y
 	self.jitter = self.rng.randf()
 	
-	self.draw_rect(Rect2(pos, Vector2(size,8)), self.color, true)
-	self.wall_top()
-	self.wall_bottom()
+	self.draw_rect(Rect2(pos, Vector2(8,size)), self.color, true)
+	self.wall_left()
+	self.wall_right()
 
 func line(start, end):
-	# HDR (project settings MUST BE OFF for anti-aliasing to work)
-	# MSAA set to highest value for sexy smoothness
 	self.draw_line(pos+start, pos+end, line_color, line_width, true)
 
 func set_pos(v):
 	self.pos = v
-	# HACK - generate a key so we can figure out who's next to us
 	self.key = [floor(v.x/self.size), floor(v.y/self.size)]
 
 func jitter():
@@ -49,26 +46,26 @@ func jitter():
 	var offset = self.size * 0.05
 	return self.rng.randf_range(-offset, offset)
 
-func wall_top():
+func wall_left():
 	if self.jitter > 0.5:
 		# two lines
-		var y1 = self.jitter()
-		self.line(Vector2(0,y1), Vector2(self.size, -y1))
+		var x1 = self.jitter()
+		self.line(Vector2(x1,0), Vector2(-x1,self.size))
 	else:
 		# three lines
-		var y1 = self.jitter()
-		var y2 = self.jitter()
-		self.line(Vector2(0, y1), Vector2(self.size/2, -y1))
-		self.line(Vector2(self.size/2, -y1), Vector2(self.size, y2))
+		var x1 = self.jitter()
+		var x2 = self.jitter()
+		self.line(Vector2(x1,0), Vector2(-x1,self.size/2))
+		self.line(Vector2(-x1,self.size/2), Vector2(x2,self.size))
 		
-func wall_bottom():
+func wall_right():
 	if self.jitter > 0.5:
 		# two lines
-		var y1 = self.jitter()
-		self.line(Vector2(0, self.height+y1), Vector2(self.size, self.height-y1))
+		var x1 = self.jitter()
+		self.line(Vector2(self.height+x1,0), Vector2(self.height-x1, self.size))
 	else:
 		# three lines
-		var y1 = self.jitter()
-		var y2 = self.jitter()
-		self.line(Vector2(0, self.height+y1), Vector2(self.size/2, self.height-y1))
-		self.line(Vector2(self.size/2, self.height-y1), Vector2(self.size, self.height+y2))
+		var x1 = self.jitter()
+		var x2 = self.jitter()
+		self.line(Vector2(self.height+x1,0), Vector2(self.height-x1,self.size/2))
+		self.line(Vector2(self.height-x1,self.size/2), Vector2(self.height+x2,self.size))

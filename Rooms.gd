@@ -39,13 +39,44 @@ func _draw():
 	pass
 
 
+func get_rooms():
+	var tmp = []
+	for x in self.get_children():
+		if x.get_class() == "Square":
+			tmp.append(x)
+	return tmp
+
+
+func get_vwalls():
+	var tmp = []
+	for x in self.get_children():
+		if x.get_class() == "VWall":
+			tmp.append(x)
+	return tmp
+
+
+func get_hwalls():
+	var tmp = []
+	for x in self.get_children():
+		if x.get_class() == "HWall":
+			tmp.append(x)
+	return tmp
+
+func get_walls():
+	var tmp = []
+	for x in self.get_children():
+		if "Wall" in x.get_class():
+			tmp.append(x)
+	return tmp
+
+
 func _on_Grid_create_room(x, y):
 	if not square:
 		return
 	
 	var found = false
 	
-	for s in self.get_children():
+	for s in self.get_rooms():
 		if s.pos == Vector2(x, y):
 			remove_child(s)
 			found = true
@@ -61,7 +92,7 @@ func _on_Grid_create_room(x, y):
 			var b_key = s.key.duplicate()
 			b_key[1] += 1
 			
-			for c in self.get_children():
+			for c in self.get_rooms():
 				if c.key == l_key:
 					c.right = true
 				if c.key == r_key:
@@ -88,7 +119,7 @@ func _on_Grid_create_room(x, y):
 		var b_key = s.key.duplicate()
 		b_key[1] += 1
 		
-		for c in self.get_children():
+		for c in self.get_rooms():
 			if c.key == l_key:
 				s.left = false
 				c.right = false
@@ -105,12 +136,19 @@ func _on_Grid_create_room(x, y):
 
 
 func _on_Grid_create_hwall(x, y):
-	var s = HWall.new()
-	add_child(s)
-	s.set_pos(Vector2(x, y))
-
+	create_wall(HWall.new(), x, y)
 
 func _on_Grid_create_vwall(x, y):
-	var s = HWall.new()
-	add_child(s)
-	s.set_pos(Vector2(x, y))
+	create_wall(VWall.new(), x, y)
+
+func create_wall(wall, x, y):
+	wall.set_pos(Vector2(x, y))
+	var found = false
+	
+	for s in self.get_walls():
+		if s.key == wall.key:
+			remove_child(s)
+			found = true
+	
+	if not found:
+		add_child(wall)

@@ -29,20 +29,27 @@ func square_size_px():
 	return int(floor(28 * self.get_scale()))
 
 var last_path = ""
+var save_modal_mode = ""
 
 func _on_btnSavePng_pressed():
 	if len(last_path):
 		$FileDialog.set_current_dir(last_path)
 	$FileDialog.popup_centered()
-	
+
 func _on_FileDialog_file_selected(path):
-	$FileDialog.hide()
+	save_modal_mode = "save-selected"
+	last_path = path
+	# now wait for the dialog to close so we don't capture it
+	# in the image (see below)
+
+func _on_FileDialog_popup_hide():
+	if save_modal_mode != "save-selected":
+		return
+		
 	get_tree().root.get_viewport()
 	var img = get_tree().root.get_viewport().get_texture().get_data()
 	img.flip_y()
-	img.save_png(path)
-	
-	last_path = path
+	img.save_png(last_path)
 
 
 func save_settings():
@@ -61,4 +68,7 @@ func load_settings():
 		$FileDialog.rect_global_position = f.get_var()
 		$Menu1.rect_global_position = f.get_var()
 		f.close()
+
+
+
 
