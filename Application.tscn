@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Grid.gd" type="Script" id=1]
 [ext_resource path="res://Rooms.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Menu1.gd" type="Script" id=7]
 [ext_resource path="res://HWall.gd" type="Script" id=8]
 [ext_resource path="res://VWall.gd" type="Script" id=9]
+[ext_resource path="res://Hatching.gd" type="Script" id=10]
 
 [sub_resource type="Theme" id=1]
 
@@ -18,7 +19,8 @@ script = ExtResource( 5 )
 [node name="A4 Sheet" type="Node2D" parent="."]
 script = ExtResource( 4 )
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="Hatching" type="Node2D" parent="."]
+script = ExtResource( 10 )
 
 [node name="Rooms" type="Node2D" parent="."]
 script = ExtResource( 2 )

@@ -106,6 +106,10 @@ func _on_Grid_create_room(x, y):
 		var s = Square.new()
 		add_child(s)
 		s.set_pos(Vector2(x, y))
+		
+		# HACK ALERT - tell hatching to turn on
+		var n = get_tree().get_root().get_node("Application/Hatching")
+		n.hatch_this(Vector2(x,y), Vector2(x,y+s.size))
 
 		var l_key = s.key.duplicate()
 		l_key[0] -= 1

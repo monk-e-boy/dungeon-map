@@ -48,7 +48,7 @@ func enable_walls(top, right, bottom, left):
 	self.update()
 
 func _draw():
-	self.draw_rect(Rect2(pos, Vector2(size,size)), self.color, true)
+#	self.draw_rect(Rect2(pos, Vector2(size,size)), self.color, true)
 
 	if self.highlight:
 		self.draw_rect(Rect2(pos, Vector2(size,size)), Color(1,1,0), false)
